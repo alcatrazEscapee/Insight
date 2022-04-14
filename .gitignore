@@ -1,0 +1,13 @@
+*
+!*/
+!/.gitignore
+
+# Project Files
+!/package.json
+!/package-lock.json
+!/tsconfig.json
+!/webpack.config.js
+!/dist/index.html
+
+# Code
+!/src/**/*.ts
