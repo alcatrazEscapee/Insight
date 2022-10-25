@@ -11,6 +11,9 @@
 !/tsconfig.json
 !/webpack.config.js
 
+# Misc
+!/LICENSE.txt
+
 # Dist
 !/dist/index.html
 !/dist/style.css
