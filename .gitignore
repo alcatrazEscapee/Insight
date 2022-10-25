@@ -2,6 +2,9 @@
 !*/
 !.gitignore
 
+# Actions
+!/.github/workflows/deploy.yml
+
 # Project Files
 !/package.json
 !/package-lock.json
