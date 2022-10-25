@@ -1,0 +1,30 @@
+html,body {
+    height: 100%;
+}
+.log-panel p {
+    padding: 0;
+    margin: 0;
+    font-size: small;
+
+    padding-left: 4em;
+    text-indent: -4em;
+}
+.log-debug {
+    background-color: #b5d1ff;
+}
+.log-info {
+    background-color: #b1ecb5;
+}
+.log-warn {
+    background-color: #ffe385;
+}
+.log-error {
+    background-color: #ffc8c8;
+}
+
+.line-no-even {
+    background-color: #cccccc;
+}
+.line-no-odd {
+    background-color: #eeeeee;
+}

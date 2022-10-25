@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <link href="style.css" rel="stylesheet">
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script src="bundle.js" type="text/javascript"></script>
+
+        <title>Insight</title>
+    </head>
+    <body>
+        <div class="container-fluid h-100 d-flex flex-column">
+            <div class="row flex-shrink-0">
+                <div class="col-12">
+                    <h1>Insight</h1>
+                </div>
+            </div>
+            <div class="row flex-fill" style="min-height:0">
+                <div class="col-3 border mh-100" style="overflow-y:auto">
+                    <form>
+                        <div class="form-group">
+                            <input type="file" class="form-control form-control-sm form-control-file" id="upload-file">
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="checkbox-timestamps">
+                                <label class="form-check-label" for="checkbox-timestamps">Time</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="checkbox-source" checked>
+                                <label class="form-check-label" for="checkbox-source">Source</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="checkbox-level">
+                                <label class="form-check-label" for="checkbox-level">Level</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-check form-check-inline log-debug">
+                                <input class="form-check-input" type="checkbox" value="" id="checkbox-debug" checked>
+                                <label class="form-check-label" for="checkbox-debug">Debug</label>
+                            </div>
+                            <div class="form-check form-check-inline log-info">
+                                <input class="form-check-input" type="checkbox" value="" id="checkbox-info" checked>
+                                <label class="form-check-label" for="checkbox-info">Info</label>
+                            </div>
+                            <div class="form-check form-check-inline log-warn">
+                                <input class="form-check-input" type="checkbox" value="" id="checkbox-warn" checked>
+                                <label class="form-check-label" for="checkbox-warn">Warn</label>
+                            </div>
+                            <div class="form-check form-check-inline log-error">
+                                <input class="form-check-input" type="checkbox" value="" id="checkbox-error" checked>
+                                <label class="form-check-label" for="checkbox-error">Error</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="checkbox-stacktrace" checked>
+                                <label class="form-check-label" for="checkbox-stacktrace">Stack Traces <span id="stack-trace-count"></span></label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-9 border mh-100 font-monospace" style="overflow-y: scroll; overflow-x:hidden; overflow-wrap: break-word;">
+                    <div class="log-panel" id="log">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p>Footer</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
