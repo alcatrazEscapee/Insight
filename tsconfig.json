@@ -2,7 +2,7 @@
     "compilerOptions": {
       "outDir": "./dist/",
       "module": "ES6",
-      "target": "ES6",
+      "target": "ES2021",
       "sourceMap": true,
       "moduleResolution": "node",
       "allowUnreachableCode": false,
