@@ -1,31 +1,26 @@
+import { Insights, InsightsMap } from "./insights";
 import { LogException, LogLine } from "./logs";
-import { IOption, IOptions, Options } from "./options";
-import { getElementById, requireType } from "./utils";
 
 
 export class Engine {
-
-    public static instance(): Engine {
-        return requireType((window as any).engine, Engine);
-    }
-
-    private readonly logTag: HTMLDivElement;
-    private readonly logLines: LogLine[];
-
-    private readonly stackTraceCountTag: HTMLSpanElement;
     
-    private options: IOptions;
+    public logLines: LogLine[];
+    public readonly insights: InsightsMap;
 
-    public constructor() {
-        this.logTag = getElementById('log', HTMLDivElement);
+    private readonly isWebEnabled: boolean;
 
-        this.stackTraceCountTag = getElementById('stack-trace-count', HTMLSpanElement);
+    public constructor(isWebEnabled: boolean) {
+        this.isWebEnabled = isWebEnabled;
 
         this.logLines = [];
-        this.options = Options.create();
+        this.insights = Insights.create();
     }
 
     public load(text: string) {
+
+        // Clear
+        this.clear();
+        this.logLines = [];
 
         // Parse log lines
         let lines: string[] = text.split('\n');
@@ -48,14 +43,14 @@ export class Engine {
                 const exception: LogException = prev.pushException(exceptionType);
                 let latestException: LogException = exception;
 
-                exception.push(exceptionMessage)
+                exception.push(exceptionMessage, this.isWebEnabled);
 
                 // Capture stack trace(s)
                 for (i++; i < lines.length; i++)
                 {
                     const stackTraceLine = lines[i] as string;
                     if (/^[ \t]+at /.test(stackTraceLine) || /^[ \t]+\.\.\. [0-9]+ more/.test(stackTraceLine)) {
-                        latestException.pushTrace(stackTraceLine);
+                        latestException.pushTrace(stackTraceLine, this.isWebEnabled);
                         continue;
                     }
 
@@ -65,7 +60,7 @@ export class Engine {
                         const causeMessage: string = stackTraceLine.substring((causeMatch[0] as string).length);
 
                         latestException = latestException.pushCause(causeType);
-                        latestException.push(causeMessage);
+                        latestException.push(causeMessage, this.isWebEnabled);
                         continue;
                     }
 
@@ -74,7 +69,7 @@ export class Engine {
                     if (futurePrefix.time === null && futurePrefix.level === null && futurePrefix.source === null && latestException.trace.length == 0) {
                         // If we hit a recognized line, then we abort parsing.
                         // Otherwise, we accumulate lines as part of the exception message *if* it's not already part of the stack trace.
-                        latestException.push(stackTraceLine);
+                        latestException.push(stackTraceLine, this.isWebEnabled);
                         continue;
                     }
 
@@ -86,48 +81,29 @@ export class Engine {
             }
 
             if (time === null || source === null || level === null) {
-                this.peek()?.push(message);
+                const prev = this.peek();
+                if (prev === null) {
+                    console.log(`Unable to parse line: ${line}`);
+                }
+                prev?.push(message, this.isWebEnabled);
                 continue;
             }
 
             const logLine = LogLine.create(time, source, level);
-            logLine.push(message);
+            logLine.push(message, this.isWebEnabled);
 
             this.logLines.push(logLine);
         }
 
-        // Build the HTML view
         this.build();
-
-        // Update based on the default UI options
-        this.update();
-
-        // Update stack trace display
-        let count = 0;
-        for (let line of this.logLines) {
-            count += line.exceptions.length;
-        }
-        this.stackTraceCountTag.innerText = `(${count})`;
-    }
-
-    public set(key: IOption, value: boolean): void {
-        this.options[key] = value;
         this.update();
     }
 
-    private build(): void {
-        for (let line of this.logLines) {
-            line.build(this.logTag);
-        }
-    }
+    protected clear(): void {}
+    protected build(): void {}
+    protected update(): void {}
 
-    private update(): void {
-        for (let line of this.logLines) {
-            line.update(this.options);
-        }
-    }
-
-    private peek(): LogLine | null { 
+    protected peek(): LogLine | null { 
         const line: LogLine | undefined = this.logLines[this.logLines.length - 1];
         return line === undefined ? null : line;
     }
@@ -146,14 +122,14 @@ function parsePrefixLine(line: string): PrefixParseResult {
     let level: LevelInfo | null = null;
 
     let message: string = line;
-
-    const timeMatch = /^\[([0-9]+:[0-9]+:[0-9]+)\] /.exec(message);
+    
+    const timeMatch = /^\[([0-9A-Za-z:\. ]+)\] /.exec(message);
     if (timeMatch !== null) {
         time = timeMatch[1] as string;
         message = message.substring((timeMatch[0] as string).length);
     }
 
-    const sourceLevelMatch = /^\[([^\/]+)\/(INFO|DEBUG|WARN|ERROR|FATAL)\]: /.exec(message);
+    const sourceLevelMatch = /^\[([^\/]+)\/(INFO|DEBUG|WARN|ERROR|FATAL)\]/.exec(message);
     if (sourceLevelMatch !== null) {
         source = sourceLevelMatch[1] as string;
         level = asLevelInfo(sourceLevelMatch[2]);

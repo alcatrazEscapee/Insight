@@ -39,19 +39,19 @@ export class LogException {
         this.cause = null;
     }
 
-    public push(line: string): ILine {
+    public push(line: string, isWebEnabled: boolean): ILine {
         const log: ILine = {
             text: line,
-            tag: createTag(this.level)
+            tag: isWebEnabled ? createTag(this.level) : (undefined as any)
         };
         this.message.push(log);
         return log;
     }
 
-    public pushTrace(line: string): ILine {
+    public pushTrace(line: string, isWebEnabled: boolean): ILine {
         const log: ILine = {
             text: line,
-            tag: createTag(this.level)
+            tag: isWebEnabled ? createTag(this.level) : (undefined as any)
         };
         this.trace.push(log);
         return log;
@@ -114,7 +114,7 @@ export class LogLine {
 
     private readonly time: string;
     private readonly source: string;
-    private readonly level: LevelInfo;
+    public readonly level: LevelInfo;
 
     private constructor(time: string, source: string, level: LevelInfo) {
         this.message = [];
@@ -125,10 +125,14 @@ export class LogLine {
         this.level = level;
     }
 
-    public push(line: string): ILine {
+    public first(): string {
+        return this.message[0]?.text ?? '';
+    }
+
+    public push(line: string, isWebEnabled: boolean): ILine {
         const log: ILine = {
             text: line,
-            tag: createTag(this.level)
+            tag: isWebEnabled ? createTag(this.level) : (undefined as any)
         };
         this.message.push(log);
         return log;

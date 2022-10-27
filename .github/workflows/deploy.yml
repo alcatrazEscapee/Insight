@@ -22,9 +22,12 @@ jobs:
     - name: Install Dependencies
       run: |
         npm install
+    - name: Test
+      run: |
+        npm test
     - name: Build
       run: |
-        npm run build
+        npm run build-prod
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@v4
       with:

@@ -22,9 +22,7 @@ html,body {
     background-color: #ffc8c8;
 }
 
-.line-no-even {
-    background-color: #cccccc;
-}
-.line-no-odd {
-    background-color: #eeeeee;
+.insight-panel p {
+    padding: 0;
+    margin: 0;
 }

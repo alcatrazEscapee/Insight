@@ -5,6 +5,7 @@
       "target": "ES2021",
       "sourceMap": true,
       "moduleResolution": "node",
+      "esModuleInterop": true,
       "allowUnreachableCode": false,
       "allowUnusedLabels": false,
       "alwaysStrict": true,

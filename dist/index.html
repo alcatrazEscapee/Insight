@@ -22,6 +22,9 @@
             </div>
             <div class="row flex-fill" style="min-height:0">
                 <div class="col-3 border mh-100" style="overflow-y:auto">
+
+                    <h5>Filtering</h5>
+
                     <form>
                         <div class="form-group">
                             <input type="file" class="form-control form-control-sm form-control-file" id="upload-file">
@@ -44,19 +47,19 @@
                         <div class="form-group">
                             <div class="form-check form-check-inline log-debug">
                                 <input class="form-check-input" type="checkbox" value="" id="checkbox-debug" checked>
-                                <label class="form-check-label" for="checkbox-debug">Debug</label>
+                                <label class="form-check-label" for="checkbox-debug">Debug <span id="debug-count"></span></label>
                             </div>
                             <div class="form-check form-check-inline log-info">
                                 <input class="form-check-input" type="checkbox" value="" id="checkbox-info" checked>
-                                <label class="form-check-label" for="checkbox-info">Info</label>
+                                <label class="form-check-label" for="checkbox-info">Info <span id="info-count"></span></label>
                             </div>
                             <div class="form-check form-check-inline log-warn">
                                 <input class="form-check-input" type="checkbox" value="" id="checkbox-warn" checked>
-                                <label class="form-check-label" for="checkbox-warn">Warn</label>
+                                <label class="form-check-label" for="checkbox-warn">Warn <span id="warn-count"></span></label>
                             </div>
                             <div class="form-check form-check-inline log-error">
                                 <input class="form-check-input" type="checkbox" value="" id="checkbox-error" checked>
-                                <label class="form-check-label" for="checkbox-error">Error</label>
+                                <label class="form-check-label" for="checkbox-error">Error <span id="error-count"></span></label>
                             </div>
                         </div>
 
@@ -67,6 +70,12 @@
                             </div>
                         </div>
                     </form>
+
+                    <hr>
+                    <h5>Insights</h5>
+                    <div id="insights" class="insight-panel">
+
+                    </div>
                 </div>
                 <div class="col-9 border mh-100 font-monospace" style="overflow-y: scroll; overflow-x:hidden; overflow-wrap: break-word;">
                     <div class="log-panel" id="log">
